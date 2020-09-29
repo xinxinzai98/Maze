@@ -6,55 +6,54 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 /**
- * 菜单Panel
+ * 主菜单Panel
  * 按钮等控件添加在这里
  */
 public class menuPanel extends JPanel {
-    public JLabel helloLabel;
-    public JButton newButton;
-    public JButton openButton;
-    public JButton createButton;
-    public JButton exitButton;
+    public menuTitle helloLabel;
+    public menuButton newButton;
+    public menuButton loadButton;
+    public menuButton createButton;
+    public menuButton exitButton;
 
+    /**
+     * 菜单面板构造器
+     * 创建菜单面板并添加按钮与装饰线
+     */
     public menuPanel() {
         //设置面板基本参数
-        setBackground(menuDefault.menuColor);
-        setLayout(new GridLayout(5, 1));
+        setBackground(menuDefault.menuColor);//背景颜色设置
+        setLayout(null);//布局结构设置
+
         //添加组件
-        helloLabel = new JLabel("CHOOSE ONE", JLabel.CENTER);
+        helloLabel = new menuTitle();
         add(helloLabel);
 
-        newButton = new JButton("NEW");
+        newButton = new menuButton("New", 1);
         add(newButton);
 
-        openButton = new JButton("OPEN");
-        add(openButton);
+        loadButton = new menuButton("Load", 2);
+        add(loadButton);
 
-        createButton = new JButton("CREATE");
+        createButton = new menuButton("Create", 3);
         add(createButton);
 
-        exitButton = new JButton("EXIT");
+        exitButton = new menuButton("Exit", 4);
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("1");
             }
         });
-        exitButton.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-
-            }
-        });
         add(exitButton);
+    }
 
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        g.setColor(menuDefault.menuLineColor);
+        g.drawLine(50, 125, 350, 125);
     }
 }

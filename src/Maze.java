@@ -13,4 +13,5 @@ public class Maze {
         var menu = new menuFrame();
         menu.setVisible(true);
     }
+
 }
