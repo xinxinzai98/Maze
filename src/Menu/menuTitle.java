@@ -10,12 +10,10 @@ import javax.swing.*;
  * 用于展示
  */
 public class menuTitle extends JLabel {
-    //TODO 补全menuTitle类
-
     public menuTitle() {
-        setIcon(menuDefault.titleicon);
-        setBounds(0, 25, 400, 100);
-
+        setIcon(menuDefault.titleIcon);
+        setBounds((menuDefault.menuWidth - menuDefault.titleWidth) / 2,
+                menuDefault.titleOffset,
+                menuDefault.titleWidth, menuDefault.titleHeight);
     }
-
 }

@@ -12,6 +12,9 @@ import java.awt.event.ActionListener;
  * 按钮等控件添加在这里
  */
 public class menuPanel extends JPanel {
+    /**
+     * 面板内组件
+     */
     public menuTitle helloLabel;
     public menuButton newButton;
     public menuButton loadButton;
@@ -40,16 +43,20 @@ public class menuPanel extends JPanel {
         createButton = new menuButton("Create", 3);
         add(createButton);
 
+        //退出程序
         exitButton = new menuButton("Exit", 4);
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("1");
+                System.exit(0);
             }
         });
         add(exitButton);
     }
 
+    /**
+     * 绘制装饰线
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);

@@ -26,7 +26,7 @@ public class menuButton extends JButton {
      * @param no   按钮在主菜单中的位置
      */
     public menuButton(String text, int no) {
-        //初始化按钮
+        //初始化按钮与计时器
         super(text);
         time = new Timer(0, null);
         //设置Button基本属性
@@ -34,20 +34,47 @@ public class menuButton extends JButton {
         setBorderPainted(false);        //设置无边框
         setForeground(menuDefault.buttonColor);     //设置背景颜色
         setFont(menuDefault.buttonFont);
-        setBounds((menuDefault.menuWidth - menuDefault.buttonWidth) / 2, menuDefault.buttonOffset + menuDefault.buttonHeight * no,
-                menuDefault.buttonWidth, menuDefault.buttonHeight);
-
+        setBounds((menuDefault.menuWidth - menuDefault.buttonWidth) / 2,
+                menuDefault.buttonOffset + menuDefault.buttonHeight * no,
+                menuDefault.buttonWidth, menuDefault.buttonHeight); //设置按钮大小
+        //给按钮设置动画
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-
+                setFont(menuDefault.hoverFont);
+                time.stop();
+                time = new Timer(menuDefault.timerDelay, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setFont(new Font(menuDefault.buttonFont.getFontName(), menuDefault.buttonFont.getStyle(),
+                                getFont().getSize() - 1));
+                        repaint();
+                        if (getFont().getSize() <= menuDefault.buttonFont.getSize()) {
+                            time.stop();
+                        }
+                    }
+                });
+                time.start();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-
+                setFont(menuDefault.buttonFont);
+                time.stop();
+                time = new Timer(menuDefault.timerDelay, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setFont(new Font(menuDefault.buttonFont.getFontName(), menuDefault.buttonFont.getStyle(),
+                                getFont().getSize() + 1));
+                        repaint();
+                        if (getFont().getSize() >= menuDefault.hoverFont.getSize()) {
+                            time.stop();
+                        }
+                    }
+                });
+                time.start();
             }
 
             @Override
@@ -56,10 +83,11 @@ public class menuButton extends JButton {
                 setForeground(menuDefault.hoverColor);
                 setFont(menuDefault.buttonFont);
                 time.stop();
-                time = new Timer(10, new ActionListener() {
+                time = new Timer(menuDefault.timerDelay, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        setFont(new Font("思源宋体", Font.PLAIN, getFont().getSize() + 1));
+                        setFont(new Font(menuDefault.buttonFont.getFontName(), menuDefault.buttonFont.getStyle(),
+                                getFont().getSize() + 1));
                         repaint();
                         if (getFont().getSize() >= menuDefault.hoverFont.getSize()) {
                             time.stop();
@@ -67,7 +95,6 @@ public class menuButton extends JButton {
                     }
                 });
                 time.start();
-
             }
 
             @Override
@@ -76,10 +103,11 @@ public class menuButton extends JButton {
                 setForeground(menuDefault.buttonColor);
                 setFont(menuDefault.hoverFont);
                 time.stop();
-                time = new Timer(10, new ActionListener() {
+                time = new Timer(menuDefault.timerDelay, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        setFont(new Font("思源宋体", Font.PLAIN, getFont().getSize() - 1));
+                        setFont(new Font(menuDefault.buttonFont.getFontName(), menuDefault.buttonFont.getStyle(),
+                                getFont().getSize() - 1));
                         repaint();
                         if (getFont().getSize() <= menuDefault.buttonFont.getSize()) {
                             time.stop();
@@ -89,11 +117,5 @@ public class menuButton extends JButton {
                 time.start();
             }
         });
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        g.setColor(menuDefault.menuLineColor);
     }
 }
