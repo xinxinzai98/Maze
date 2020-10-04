@@ -41,6 +41,7 @@ public class Maze {
                             mazeframe.setVisible(true);
                         } catch (Exception exception) {
                             menu.setVisible(true);
+                            exception.printStackTrace();
                         }
                     }
                 }, menuDefault.buttonDelay, TimeUnit.MILLISECONDS);

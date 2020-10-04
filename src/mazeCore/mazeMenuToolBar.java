@@ -1,5 +1,7 @@
 package mazeCore;
 
+import DefaultParam.mazeDefault;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -9,13 +11,16 @@ import java.awt.event.KeyEvent;
  */
 public class mazeMenuToolBar extends JMenuBar {
     public mazeMenuToolBar() {
+        setForeground(mazeDefault.mazePanelColor);
         //TODO 添加上菜单栏内容
         add(createFileMenu());
         setVisible(true);
     }
 
     /**
-     * @return
+     * 创建FileMenu
+     *
+     * @return FileMenu
      */
     private JMenu createFileMenu() {
         JMenu menu = new JMenu("文件(F)");
@@ -32,20 +37,16 @@ public class mazeMenuToolBar extends JMenuBar {
         menu.addSeparator();
         item = new JMenuItem("退出(E)", KeyEvent.VK_E);
         item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+        item.addActionListener(e -> System.exit(0));
         menu.add(item);
         return menu;
     }
 
-    /**
-     * @return
-     */
+
     private JMenu createEditMenu() {
         return new JMenu();
     }
 
-    /**
-     * @return
-     */
     private JMenu createHelpMenu() {
         return new JMenu();
     }

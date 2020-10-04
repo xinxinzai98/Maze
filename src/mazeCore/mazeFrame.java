@@ -1,5 +1,6 @@
 package mazeCore;
 
+import DefaultParam.mazeDefault;
 import DefaultParam.menuDefault;
 
 import javax.swing.*;
@@ -10,35 +11,65 @@ import java.awt.*;
  */
 public class mazeFrame extends JFrame {
     private static final String programName = "MAZE";
+    //内部组件
+    public JPanel contentPanel;
+    /**
+     * 内部动画计时器
+     */
+    private Timer time;
     public mazeMenuToolBar menuToolBar;
     public mazePanel mazepanel;
     public mazeToolPanel toolBarDown;
 
     public mazeFrame(Dimension mazeDimension) {
         //Frame基础配置
-        setTitle(programName);  //设置窗口标题
+        setTitle(programName + mazeDimension.width + "*" + mazeDimension.height);  //设置窗口标题
         setIconImage(menuDefault.titleIcon.getImage());
+        setBackground(mazeDefault.mazePanelColor);
         setResizable(false);    //设置窗口无法改变大小
-        setLocationRelativeTo(null);    //居中显示
-        setLayout(new BorderLayout());  //设置布局管理器
-        setFrameSize(mazeDimension);
+        //默认设置
+        mazeDefault mazedefault = new mazeDefault(mazeDimension);
+        time = new Timer(0, null);
         //添加menuBar
         menuToolBar = new mazeMenuToolBar();
         setJMenuBar(menuToolBar);
 
+        //内容面板
+        contentPanel = new JPanel();
+        contentPanel.setBackground(mazeDefault.mazePanelColor);
+        setContentPane(contentPanel);
+        //迷宫绘图区域
         mazepanel = new mazePanel(mazeDimension);
-        add(mazepanel, BorderLayout.CENTER);
+        contentPanel.add(mazepanel);
+        //解题按钮区域
+        toolBarDown = new mazeToolPanel();
+        toolBarDown.showPathA.addActionListener(e -> {
+            //还原初始条件
+            time.stop();
+            toolBarDown.time.data.setText("0");
+            toolBarDown.step.data.setText("0");
+            mazepanel.paintOrigin();
+            mazepanel.getSolutionA();
+            time = new Timer(mazeDefault.timerDelay, e1 -> {
+                mazepanel.paintSolutionA();
+                toolBarDown.step.data.setText(String.valueOf(mazepanel.getCount()));
+                toolBarDown.time.data.setText(mazepanel.getSolutionTime() + "ns");
+                if (mazepanel.isOver()) {
+                    time.stop();
+                    toolBarDown.time.data.setText(mazepanel.getSolutionTime() + "ns");
+                }
+            });
+            time.start();
+        });
+        toolBarDown.clearMap.addActionListener(e -> {
+            time.stop();
+            mazepanel.paintOrigin();
+        });
+        toolBarDown.newMapA.addActionListener(e -> mazepanel.newMapA());
+        toolBarDown.newMapB.addActionListener(e -> mazepanel.newMapB());
+        contentPanel.add(toolBarDown);
 
-        toolBarDown = new mazeToolPanel(mazeDimension);
-        add(toolBarDown, BorderLayout.SOUTH);
-    }
-
-    /**
-     * 通过用户输入确定Frame大小
-     *
-     * @param mazeDimension 输入迷宫大小
-     */
-    public void setFrameSize(Dimension mazeDimension) {
-        setSize(menuDefault.menuWidth, menuDefault.menuHeight);
+        pack();//包装
+        setLocationRelativeTo(null);    //居中显示
     }
 }

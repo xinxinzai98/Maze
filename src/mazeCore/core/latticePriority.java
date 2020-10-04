@@ -6,5 +6,5 @@ public enum latticePriority {
     WALL,
     TOUCHABLE,
     IMPASSES,
-    RIGHTPATH
+    RIGHTWARD
 }
