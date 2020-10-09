@@ -1,9 +1,11 @@
 package mazeCore.core;
 
+import java.io.Serializable;
+
 /**
  * 地图格点类
  */
-public class lattice {
+public class lattice implements Serializable {
     //格点状态
     private latticePriority latticeState;
     private boolean playerPassed;

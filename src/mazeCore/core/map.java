@@ -1,5 +1,7 @@
 package mazeCore.core;
 
+import java.io.Serializable;
+
 /**
  * 地图默认设置
  */
@@ -15,7 +17,7 @@ class mapDefault {
  * 迷宫地图类
  * 负责构建地图
  */
-public class map {
+public class map implements Serializable {
     //地图参数
     private int mapSizeRow;
     private int mapSizeColumn;
@@ -48,18 +50,14 @@ public class map {
                 innerMap[i][j] = new lattice(i, j);
             }
         }
-        // 设置地图边界和内墙
+        // 设置地图边界
         for (int i = 0; i < mapSizeRow; i++) {
             innerMap[i][0].setLatticeState(latticePriority.EDGE);
             innerMap[i][mapSizeColumn - 1].setLatticeState(latticePriority.EDGE);
-            //innerMap[i][1].setLatticeState(latticePriority.WALL);
-            //innerMap[i][mapSizeColumn - 2].setLatticeState(latticePriority.WALL);
         }
         for (int i = 1; i < mapSizeColumn - 1; i++) {
             innerMap[0][i].setLatticeState(latticePriority.EDGE);
             innerMap[mapSizeRow - 1][i].setLatticeState(latticePriority.EDGE);
-            //innerMap[1][i].setLatticeState(latticePriority.WALL);
-            //innerMap[mapSizeRow - 2][i].setLatticeState(latticePriority.WALL);
         }
 
         // 地图起点终点设置
@@ -181,4 +179,6 @@ public class map {
         this.mapEndRow = mapEndRow;
         this.mapEndColumn = mapEndColumn;
     }
+
+
 }

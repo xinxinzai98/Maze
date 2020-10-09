@@ -56,6 +56,7 @@ class solutionInfo extends JPanel {
     public solutionInfo(String text) {
         //基本设置
         setBackground(mazeDefault.mazePanelColor);
+        //TODO 信息列表式样调整
         info = new JLabel(text + ":");
         add(info);
         data = new JLabel("0");
@@ -67,6 +68,7 @@ class solutionInfo extends JPanel {
  * 题解按钮
  */
 class toolPanelButton extends JButton {
+    //TODO 按钮式样调整
     public toolPanelButton(String text) {
         super(text);
     }

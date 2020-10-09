@@ -8,7 +8,7 @@ public class solution {
     private map innerMaze;
     //输出迷宫解
     private map solutionMap;
-    //迷宫解品质 TODO 将迷宫解参数显示出来
+    //迷宫解品质
     private long solutionTime;//最后一次解题用时
     private int count;//最后一次解题总步数
     //可视化小球运动组件
@@ -143,4 +143,5 @@ public class solution {
             playerLocationColumn = playerLocationColumn - 1;//左
         }
     }
+
 }

@@ -60,14 +60,14 @@ public class generateMaze {
             }
 
         } else {
-            startColumn = random.nextInt(innerMaze.getMapSizeRow() - 2) + 1;
-            endColumn = random.nextInt(innerMaze.getMapSizeRow() - 2) + 1;
+            startColumn = random.nextInt(innerMaze.getMapSizeColumn() - 2) + 1;
+            endColumn = random.nextInt(innerMaze.getMapSizeColumn() - 2) + 1;
             if (random.nextDouble() > 0.5) {
                 endRow = 1;
-                startRow = innerMaze.getMapSizeColumn() - 2;
+                startRow = innerMaze.getMapSizeRow() - 2;
             } else {
                 startRow = 1;
-                endRow = innerMaze.getMapSizeColumn() - 2;
+                endRow = innerMaze.getMapSizeRow() - 2;
             }
         }
         innerMaze.setStartEnd(startRow, startColumn, endRow, endColumn);

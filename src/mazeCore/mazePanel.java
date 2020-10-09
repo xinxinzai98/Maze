@@ -14,12 +14,19 @@ import java.awt.*;
  */
 public class mazePanel extends JPanel {
     //保存迷宫大小变量
-    private Dimension mazeDimension;
+    public Dimension mazeDimension;
     //内置待绘制迷宫指针
     private map maze;
     //内置题解
     private solution sol;
+    //检查是否保存
+    public boolean isSaved;
 
+    /**
+     * 默认构造函数
+     *
+     * @param mazeDimension 地图大小
+     */
     public mazePanel(Dimension mazeDimension) {
         this.mazeDimension = mazeDimension;
         //面板基础设置
@@ -27,16 +34,22 @@ public class mazePanel extends JPanel {
         setPreferredSize(new Dimension(mazeDimension.width * mazeDefault.mazeLatticeSize + mazeDefault.mazeFrameOffset
                 , mazeDimension.height * mazeDefault.mazeLatticeSize + mazeDefault.mazeFrameOffset));
         //初始化地图
-        maze = new generateMaze(mazeDimension.height, mazeDimension.width).getMaze("B");
+        maze = new generateMaze(mazeDimension.height, mazeDimension.width).getMaze("A");
         sol = new solution(maze);
+        //初始化存档
+        isSaved = false;
     }
 
-
+    /**
+     * 格子可视化
+     *
+     * @param graphics 输入
+     */
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
         paintMaze(graphics);
-        paintBorad(graphics);
+        paintBoard(graphics);
         //paintLattice(graphics);
     }
 
@@ -61,7 +74,7 @@ public class mazePanel extends JPanel {
      *
      * @param graphics 画笔
      */
-    private void paintBorad(Graphics graphics) {
+    private void paintBoard(Graphics graphics) {
         graphics.setColor(mazeDefault.mazeLineColor);
         graphics.drawLine(0, 0, getWidth(), 0);
         graphics.drawLine(0, getHeight(), getWidth(), getHeight());
@@ -157,6 +170,7 @@ public class mazePanel extends JPanel {
      * 新建地图A
      */
     public void newMapA() {
+        isSaved = false;
         maze = new generateMaze(mazeDimension.height, mazeDimension.width).getMaze("A");
         sol = new solution(maze);
         repaint();
@@ -166,6 +180,7 @@ public class mazePanel extends JPanel {
      * 新建地图B
      */
     public void newMapB() {
+        isSaved = false;
         maze = new generateMaze(mazeDimension.height, mazeDimension.width).getMaze("B");
         sol = new solution(maze);
         repaint();
@@ -177,5 +192,17 @@ public class mazePanel extends JPanel {
 
     public int getCount() {
         return sol.getCount();
+    }
+
+    public boolean isSaved() {
+        return isSaved;
+    }
+
+    public void setSaved(boolean saved) {
+        isSaved = saved;
+    }
+
+    public map getInnerMaze() {
+        return sol.getInnerMaze();
     }
 }

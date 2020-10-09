@@ -5,8 +5,6 @@ import mazeCore.mazeFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -26,26 +24,20 @@ public class Maze {
         menu = new menuFrame();
         menu.setVisible(true);
         //为NewButton绑定监听器,并设置执行延迟,打开mazeFrame并关闭menuFrame
-        menu.menupanel.newButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ScheduledExecutorService service = Executors.newScheduledThreadPool(3);
-                service.schedule(new Runnable() {
-                    @Override
-                    public void run() {
-                        menu.setVisible(false);
-                        //用户自定义迷宫
-                        try {
-                            Dimension mazeDimension = userInitializeMapSize();
-                            mazeframe = new mazeFrame(mazeDimension);
-                            mazeframe.setVisible(true);
-                        } catch (Exception exception) {
-                            menu.setVisible(true);
-                            exception.printStackTrace();
-                        }
-                    }
-                }, menuDefault.buttonDelay, TimeUnit.MILLISECONDS);
-            }
+        menu.menupanel.newButton.addActionListener(e -> {
+            ScheduledExecutorService service = Executors.newScheduledThreadPool(3);
+            service.schedule(() -> {
+                menu.setVisible(false);
+                //用户自定义迷宫
+                try {
+                    Dimension mazeDimension = userInitializeMapSize();
+                    mazeframe = new mazeFrame(mazeDimension);
+                    mazeframe.setVisible(true);
+                } catch (Exception exception) {
+                    menu.setVisible(true);
+                    exception.printStackTrace();
+                }
+            }, menuDefault.buttonDelay, TimeUnit.MILLISECONDS);
         });
     }
 

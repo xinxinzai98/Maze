@@ -21,6 +21,10 @@ public class mazeDefault {
     public static final int timerDelay = 2;
     public static int mazeLatticeSize;
 
+    //保存规则
+    public static String savePath = "save/";
+
+
     public mazeDefault(Dimension mazeDimension) {
         setLatticeSizeByMaze(mazeDimension);
     }
