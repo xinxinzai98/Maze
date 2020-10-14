@@ -7,6 +7,8 @@ import mazeCore.core.map;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -63,6 +65,18 @@ public class mazeFrame extends JFrame {
         setResizable(false);    //设置窗口无法改变大小
         time = new Timer(0, null);  //重置计时器
         setLocationRelativeTo(null);    //居中显示
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                remindSave();
+                int result = JOptionPane.showConfirmDialog(null, "确认退出?", "确认", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (result == JOptionPane.OK_OPTION) {
+                    // 退出
+                    System.exit(0);
+                }
+            }
+        });
     }
 
     /**
@@ -119,6 +133,9 @@ public class mazeFrame extends JFrame {
             });
             time.start();
         });
+        toolBarDown.showPathB.addActionListener(e ->
+                JOptionPane.showConfirmDialog(null, "功能还在开发中！", "敬请期待", JOptionPane.WARNING_MESSAGE)
+        );
         //clear功能
         toolBarDown.clearMap.addActionListener(e -> {
             time.stop();

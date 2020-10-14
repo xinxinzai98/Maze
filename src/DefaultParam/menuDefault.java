@@ -17,7 +17,8 @@ public class menuDefault {
     /**
      * menuTitle默认设置
      */
-    public static final ImageIcon titleIcon = new ImageIcon("image/MAZE.png");
+    static java.net.URL imgURL = menuDefault.class.getResource("/image/MAZE.png");
+    public static final ImageIcon titleIcon = new ImageIcon(imgURL);
     public static final int titleHeight = 100;
     public static final int titleWidth = menuWidth;
     public static final int titleOffset = 25;
