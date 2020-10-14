@@ -18,10 +18,10 @@ public class menuFrame extends JFrame {
     public menuFrame() {
         //Frame基础配置
         setUndecorated(true);
-        setTitle(projectName);  //设置窗口标题
+        setTitle(projectName);          //设置窗口标题
         setSize(menuDefault.menuWidth, menuDefault.menuHeight);
         setIconImage(menuDefault.titleIcon.getImage());
-        setResizable(false);    //设置窗口无法改变大小
+        setResizable(false);            //设置窗口无法改变大小
         setLocationRelativeTo(null);    //居中显示
         menupanel = new menuPanel();
         //配置标题拖动效果

@@ -13,7 +13,6 @@ public class menuDefault {
     public static final int menuHeight = 575;
     public static final int menuWidth = 400;
     public static final Color menuColor = new Color(0, 197, 239);//好颜色
-    public static final ImageIcon icon = new ImageIcon("image/mazeIcon.png");
     public static final int buttonDelay = 300;
     /**
      * menuTitle默认设置

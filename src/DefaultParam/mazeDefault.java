@@ -9,7 +9,6 @@ public class mazeDefault {
     public static final Color mazePanelColor = new Color(0, 197, 239);//好颜色;
     public static final int mazeToolBarDownWidth = 100;
     public static final int mazeFrameOffset = 1;
-    public static final int screenHeight = 800;
     //地图绘制颜色规则
     public static final Color mazeWallColor = Color.WHITE;
     public static final Color mazeRightPathColor = Color.GREEN;

@@ -5,23 +5,15 @@ package mazeCore.core;
  */
 public class solution {
     //保存原始迷宫
-    private map innerMaze;
+    private final map innerMaze;
     //输出迷宫解
     private map solutionMap;
     //迷宫解品质
-    private long solutionTime;//最后一次解题用时
-    private int count;//最后一次解题总步数
+    private long solutionTime;  //最后一次解题用时
+    private int count;          //最后一次解题总步数
     //可视化小球运动组件
     private int playerLocationRow;
     private int playerLocationColumn;
-
-    /**
-     * 无参构造
-     */
-    public solution() {
-        innerMaze = new map();
-        solutionMap = new map();
-    }
 
     /**
      * 传入待解迷宫构造
@@ -72,6 +64,17 @@ public class solution {
             }
         }
     }
+
+    /**
+     * 迷宫解B
+     *
+     * @return 标记好路线的迷宫
+     */
+    public map solutionB() {
+        //TODO 完成B算法
+        return solutionMap;
+    }
+
 
     public map getInnerMaze() {
         return innerMaze;

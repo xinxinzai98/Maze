@@ -51,13 +51,11 @@ public class mazeToolPanel extends JPanel {
  */
 class solutionInfo extends JPanel {
     public JLabel data;
-    private JLabel info;
-
     public solutionInfo(String text) {
         //基本设置
         setBackground(mazeDefault.mazePanelColor);
         //TODO 信息列表式样调整
-        info = new JLabel(text + ":");
+        JLabel info = new JLabel(text + ":");
         add(info);
         data = new JLabel("0");
         add(data);

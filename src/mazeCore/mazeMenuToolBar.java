@@ -12,10 +12,10 @@ import java.awt.event.KeyEvent;
 public class mazeMenuToolBar extends JMenuBar {
     //文件菜单栏
     public JMenu FileMenu;
-    public JMenuItem newFile;//新建
-    public JMenuItem openFile;
-    public JMenuItem saveFile;
-    public JMenuItem exit;
+    public JMenuItem newFile;   //新建
+    public JMenuItem openFile;  //打开
+    public JMenuItem saveFile;  //保存
+    public JMenuItem exit;      //退出
     //编辑菜单栏
     public JMenu EditMenu;
     //帮助菜单栏
@@ -26,14 +26,11 @@ public class mazeMenuToolBar extends JMenuBar {
         //TODO 添加上菜单栏内容
         FileMenu = createFileMenu();
         add(FileMenu);
-
-
         setVisible(true);
     }
 
     /**
      * 创建FileMenu
-     *
      * @return FileMenu
      */
     private JMenu createFileMenu() {
@@ -61,7 +58,6 @@ public class mazeMenuToolBar extends JMenuBar {
 
     /**
      * 创建EditMenu
-     *
      * @return EditMenu
      */
     private JMenu createEditMenu() {
@@ -70,7 +66,6 @@ public class mazeMenuToolBar extends JMenuBar {
 
     /**
      * 创建HelpMenu
-     *
      * @return HelpMenu
      */
     private JMenu createHelpMenu() {

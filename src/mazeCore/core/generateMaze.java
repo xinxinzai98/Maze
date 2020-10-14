@@ -18,7 +18,6 @@ public class generateMaze {
 
     /**
      * 生成指定行数列数的Map
-     *
      * @param inputMapSizeRow    输入行数
      * @param inputMapSizeColumn 输入列数
      */
@@ -89,7 +88,6 @@ public class generateMaze {
 
     /**
      * 将格点列表中各格点随机压栈
-     *
      * @param originList 格点列表
      */
     private void randomPush(List<lattice> originList) {
@@ -103,7 +101,6 @@ public class generateMaze {
 
     /**
      * 得到一个格点附近可用格点List
-     *
      * @param originLattice 输入格点
      * @return 格点附近可用格点List
      */
@@ -128,7 +125,6 @@ public class generateMaze {
 
     /**
      * 确认一个格点是否可用
-     *
      * @param originLattice 输入格点
      * @return 是否可用
      */
@@ -146,7 +142,6 @@ public class generateMaze {
 
     /**
      * 确认一个格点附近空位个数
-     *
      * @param originLattice 输入格点
      * @return 空位个数
      */
@@ -187,7 +182,6 @@ public class generateMaze {
 
     /**
      * 将格点列表中各格点进List
-     *
      * @param originList 格点列表
      */
     private void addLatticeList(List<lattice> originList) {
@@ -204,7 +198,6 @@ public class generateMaze {
 
     /**
      * 根据不同参数执行不同生成策略
-     *
      * @param argue 参数
      * @return 生成地图
      */

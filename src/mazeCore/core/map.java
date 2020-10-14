@@ -1,5 +1,6 @@
 package mazeCore.core;
 
+import java.awt.*;
 import java.io.Serializable;
 
 /**
@@ -180,5 +181,12 @@ public class map implements Serializable {
         this.mapEndColumn = mapEndColumn;
     }
 
-
+    /**
+     * 获得具体行列大小
+     *
+     * @return 行列大小
+     */
+    public Dimension getDimension() {
+        return new Dimension(mapSizeRow - 2, mapSizeColumn - 2);
+    }
 }

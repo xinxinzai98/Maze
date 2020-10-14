@@ -1,7 +1,9 @@
 package mazeCore;
 
+import DefaultParam.mapDefault;
 import DefaultParam.mazeDefault;
 import DefaultParam.menuDefault;
+import mazeCore.core.map;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,31 +26,77 @@ public class mazeFrame extends JFrame {
     public mazePanel mazepanel;
     public mazeToolPanel toolBarDown;
 
+    /**
+     * 随机生成构造函数
+     *
+     * @param mazeDimension 用户输入的地图大小
+     */
     public mazeFrame(Dimension mazeDimension) {
         //Frame基础配置
         setTitle(programName + mazeDimension.height + "*" + mazeDimension.width);  //设置窗口标题
+        new mazeDefault(mazeDimension);
+        mazepanel = new mazePanel(mazeDimension);
+        addFunction();
+        mazeFrameDefaultSetting();
+    }
+
+    /**
+     * 读取地图直接生成
+     *
+     * @param newMap 读取到的地图
+     */
+    public mazeFrame(map newMap) {
+        //Frame基础配置
+        setTitle(programName + newMap.getDimension().height + "*" + newMap.getDimension().width);  //设置窗口标题
+        new mazeDefault(newMap.getDimension());
+        mazepanel = new mazePanel(newMap);
+        addFunction();
+        mazeFrameDefaultSetting();
+    }
+
+    /**
+     * 默认设置
+     */
+    public void mazeFrameDefaultSetting() {
         setIconImage(menuDefault.titleIcon.getImage());
         setBackground(mazeDefault.mazePanelColor);
         setResizable(false);    //设置窗口无法改变大小
-        //默认设置
-        new mazeDefault(mazeDimension);
-        time = new Timer(0, null);
+        time = new Timer(0, null);  //重置计时器
+        setLocationRelativeTo(null);    //居中显示
+    }
+
+    /**
+     * 为按钮绑定监听器
+     */
+    private void addFunction() {
         //添加menuBar
         menuToolBar = new mazeMenuToolBar();
+        menuToolBar.newFile.addActionListener(e -> {
+            remindSave();
+            newMap();
+        });
         //保存文件功能
         menuToolBar.saveFile.addActionListener(e -> {
             if (!mazepanel.isSaved()) {
                 saveMap();
             }
         });
+        //打开文件功能
+        menuToolBar.openFile.addActionListener(e -> {
+            remindSave();
+            loadMap();
+        });
+        //退出功能
+        menuToolBar.exit.addActionListener(e -> {
+            remindSave();
+            System.exit(0);
+        });
         setJMenuBar(menuToolBar);
-
         //内容面板
         contentPanel = new JPanel();
         contentPanel.setBackground(mazeDefault.mazePanelColor);
         setContentPane(contentPanel);
         //迷宫绘图区域
-        mazepanel = new mazePanel(mazeDimension);
         contentPanel.add(mazepanel);
         //解题按钮区域
         toolBarDown = new mazeToolPanel();
@@ -79,10 +127,67 @@ public class mazeFrame extends JFrame {
         //新地图功能
         toolBarDown.newMapA.addActionListener(e -> mazepanel.newMapA());
         toolBarDown.newMapB.addActionListener(e -> mazepanel.newMapB());
-
         contentPanel.add(toolBarDown);
         pack();//包装
-        setLocationRelativeTo(null);    //居中显示
+    }
+
+    /**
+     * 新建地图
+     *
+     * @return 是否新建成功
+     */
+    private boolean newMap() {
+        try {
+            Dimension mazeDimension = userInitializeMapSize();
+            changeFrame(mazeDimension);
+            new mazeDefault(mazeDimension);
+            contentPanel.removeAll();
+            mazepanel = new mazePanel(mazeDimension);
+            addFunction();
+            contentPanel.revalidate();
+            contentPanel.repaint();
+            mazeFrameDefaultSetting();
+            return true;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 初始化迷宫大小
+     * 弹出对话框接受用户输入
+     *
+     * @return 用户输入的迷宫大小
+     */
+    public Dimension userInitializeMapSize() throws Exception {
+        String sMazeSizeRow = JOptionPane.showInputDialog(
+                "请输入迷宫行数(row):",
+                mapDefault.mapSizeRow);
+        int iMazeSizeRow;
+        if (sMazeSizeRow != null) {
+            try {
+                iMazeSizeRow = Integer.parseInt(sMazeSizeRow);
+            } catch (NumberFormatException e) {
+                iMazeSizeRow = mapDefault.mapSizeRow;
+            }
+        } else {
+            throw new Exception();
+        }
+        String sMazeSizeColumn = JOptionPane.showInputDialog(
+                "请输入迷宫列数(column):",
+                mapDefault.mapSizeColumn);
+        int iMazeSizeColumn;
+        if (sMazeSizeColumn != null) {
+            try {
+                iMazeSizeColumn = Integer.parseInt(sMazeSizeColumn);
+            } catch (NumberFormatException e) {
+                iMazeSizeColumn = mapDefault.mapSizeColumn;
+            }
+        } else {
+            throw new Exception();
+        }
+        return new Dimension(iMazeSizeColumn, iMazeSizeRow);
     }
 
     /**
@@ -92,8 +197,9 @@ public class mazeFrame extends JFrame {
      */
     private boolean saveMap() {
         File saveDocument = new File(mazeDefault.savePath);    //文件路径（路径+文件名）
-        if (!saveDocument.exists()) {    //目录不存在则创建目录并返回保存名称
+        if (!saveDocument.exists()) {    //目录不存在则创建目录
             saveDocument.mkdir();
+            return false;
         }
         JFileChooser fc = new JFileChooser(mazeDefault.savePath);
         fc.setSelectedFile(new File(saveMapName()));
@@ -114,13 +220,9 @@ public class mazeFrame extends JFrame {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else {
-
             }
             mazepanel.setSaved(true);
             return true;
-        } else {
-
         }
         return true;
     }
@@ -225,5 +327,71 @@ public class mazeFrame extends JFrame {
             return Integer.compare(i1, i2);
         });
         return finallyList;
+    }
+
+    /**
+     * 打开已有地图
+     *
+     * @return 是否打开成功
+     */
+    private boolean loadMap() {
+        File saveDocument = new File(mazeDefault.savePath);    //文件路径（路径+文件名）
+        if (!saveDocument.exists()) {    //目录不存在则创建目录并返回保存名称
+            saveDocument.mkdir();
+        }
+        JFileChooser fc = new JFileChooser(mazeDefault.savePath);
+        int option = fc.showOpenDialog(null);    //文件保存对话框
+        if (option == JFileChooser.APPROVE_OPTION) {//如果选择了文件
+            File file = fc.getSelectedFile();
+            if (!file.exists()) {                //文件不存在
+                JOptionPane.showConfirmDialog(null, "文件不存在！", "WARNING", JOptionPane.WARNING_MESSAGE);
+                return false;
+            } else {
+                try (InputStream input = new FileInputStream(file)) {
+                    try (ObjectInputStream oInput = new ObjectInputStream(input)) {
+                        try {//成功读取到地图
+                            map readMap = new map((map) oInput.readObject());
+                            changeFrame(readMap.getDimension());
+                            contentPanel.removeAll();
+                            mazepanel = new mazePanel(readMap);
+                            addFunction();
+                            contentPanel.revalidate();
+                            contentPanel.repaint();
+                        } catch (ClassNotFoundException e) {//文件内容错误
+                            JOptionPane.showConfirmDialog(null, "无法读取文件！", "WARNING", JOptionPane.WARNING_MESSAGE);
+                            return false;
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 改变Frame大小
+     *
+     * @param newDimension 新大小
+     */
+    private void changeFrame(Dimension newDimension) {
+        setTitle(programName + newDimension.height + "*" + newDimension.width);  //设置窗口标题
+        new mazeDefault(newDimension);
+        setLocationRelativeTo(null);    //居中显示
+    }
+
+    /**
+     * 提醒用户保存地图
+     */
+    private void remindSave() {
+        if (!mazepanel.isSaved()) {
+            int result = JOptionPane.showConfirmDialog(null, "是否保存当前地图?", "地图未保存", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                saveMap();
+            }
+        }
     }
 }

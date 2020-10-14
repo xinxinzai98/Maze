@@ -23,7 +23,7 @@ public class mazePanel extends JPanel {
     public boolean isSaved;
 
     /**
-     * 默认构造函数
+     * 随机生成地图
      *
      * @param mazeDimension 地图大小
      */
@@ -41,7 +41,25 @@ public class mazePanel extends JPanel {
     }
 
     /**
-     * 格子可视化
+     * 读取地图
+     *
+     * @param newMap 读取到的地图
+     */
+    public mazePanel(map newMap) {
+        this.mazeDimension = newMap.getDimension();
+        //面板基础设置
+        setBackground(mazeDefault.mazePanelColor);
+        setPreferredSize(new Dimension(mazeDimension.width * mazeDefault.mazeLatticeSize + mazeDefault.mazeFrameOffset
+                , mazeDimension.height * mazeDefault.mazeLatticeSize + mazeDefault.mazeFrameOffset));
+        //初始化地图
+        maze = new map(newMap);
+        sol = new solution(maze);
+        //初始化存档
+        isSaved = true;
+    }
+
+    /**
+     * 地图可视化
      *
      * @param graphics 输入
      */
@@ -50,7 +68,6 @@ public class mazePanel extends JPanel {
         super.paint(graphics);
         paintMaze(graphics);
         paintBoard(graphics);
-        //paintLattice(graphics);
     }
 
     /**
@@ -204,5 +221,10 @@ public class mazePanel extends JPanel {
 
     public map getInnerMaze() {
         return sol.getInnerMaze();
+    }
+
+    public void setMaze(map maze) {
+        this.maze = maze;
+        sol = new solution(maze);
     }
 }
